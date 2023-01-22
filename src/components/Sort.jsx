@@ -4,7 +4,11 @@ import React from 'react'
 
 function Sort({sortType, setSortType}) {
   const [isOpen, setIsOpen] = useState(false);
-  const listSort = ['популярности', 'цене', 'алфавиту'];
+  const listSort = [
+    { name: 'популярности', sortProperty: 'rating'}, 
+    { name: 'цене', sortProperty: 'price'}, 
+    { name: 'алфавиту', sortProperty: 'title'}
+  ];
 
   const onClickListItem = (index) => {
     setSortType(index);
@@ -27,15 +31,15 @@ function Sort({sortType, setSortType}) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>{listSort[sortType]}</span>
+        <span onClick={() => setIsOpen(!isOpen)}>{sortType.name}</span>
       </div>
       {isOpen &&
       <div className="sort__popup">
         <ul>
           {
             listSort.map((listItem, index) => {
-              return <li key={index} onClick={() => onClickListItem(index)} 
-              className={sortType === index ? "active" : ''}>{listItem}</li>
+              return <li key={index} onClick={() => onClickListItem(listItem)} 
+              className={sortType.sortProperty === listSort.sortProperty ? "active" : ''}>{listItem.name}</li>
             })
           }
         </ul>
