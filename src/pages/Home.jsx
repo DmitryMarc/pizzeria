@@ -16,14 +16,15 @@ const Home = () => {
                 setItems(jsonArray);
                 setIsLoading(false);
             })
+            window.scrollTo(0, 0);
     }, [])
     return (
-        <>
+        <div className="container">
             <div className="content__top">
                 <Categories />
                 <Sort />
             </div>
-            <h2 className="content__title">Все пиццы</h2>
+            <h2 className="content__title">Все пиццы:</h2>
             <div className="content__items">
                 {
                     isLoading
@@ -33,7 +34,7 @@ const Home = () => {
                         })
                 }
             </div>
-        </>
+        </ div>
     )
 }
 
