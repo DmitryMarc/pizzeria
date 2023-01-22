@@ -4,7 +4,6 @@ import Home from "./Home";
 const Cart = () => {
     return (
         <>
-            <Home />
             <CartBlock />
         </>
     )
