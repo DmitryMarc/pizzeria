@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from 'react'
 
 
-function Sort({sortType, setSortType}) {
+function Sort({sortType, setSortType, orderType, setOrderType}) {
   const [isOpen, setIsOpen] = useState(false);
   const listSort = [
     { name: 'популярности', sortProperty: 'rating'}, 
@@ -19,8 +19,12 @@ function Sort({sortType, setSortType}) {
     <div className="sort">
       <div className="sort__label">
         <svg
-          width="10"
-          height="6"
+          onClick={() => setOrderType(!orderType)} 
+          transform={orderType ? 'rotate(-180 0 0)' : ''} 
+          width="15" 
+          height="9"
+          // width="10"
+          // height="6"
           viewBox="0 0 10 6"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
