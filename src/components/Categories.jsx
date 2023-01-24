@@ -1,7 +1,7 @@
 
 function Categories({categoryId, setCategoryId}) {
   
-  const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
+  const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые']
 
   const onClickCategory = (index) => {
     setCategoryId(index)
