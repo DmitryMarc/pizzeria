@@ -5,6 +5,7 @@ import Sort from '../components/Sort';
 import Preloader from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const Home = ({ searchValue }) => {
     const [items, setItems] = useState([]);
@@ -18,14 +19,13 @@ const Home = ({ searchValue }) => {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`https://63cae056f36cbbdfc76246cf.mockapi.io/items?page=${currentPage}&limit=4${categoryId > 0
+        axios.get(`https://63cae056f36cbbdfc76246cf.mockapi.io/items?page=${currentPage}&limit=4${categoryId > 0
             ? `&category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${orderType
-                ? 'desc' : 'asc'}${searchValue ? `&search=${searchValue}` : ''}`)
-            .then(res => res.json())
-            .then(jsonArray => {
-                setItems(jsonArray);
-                setIsLoading(false);
-            })
+                ? 'desc' : 'asc'}${searchValue ? `&search=${searchValue}` : ''}`).then(res => {
+                    setItems(res.data);
+                    setIsLoading(false);
+                }
+                )
         window.scrollTo(0, 0);
     }, [categoryId, sortType, orderType, searchValue, currentPage])
 
