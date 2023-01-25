@@ -11,10 +11,10 @@ const Home = ({ searchValue }) => {
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    const currentPage = useSelector(state => state.filter.currentPage);
     const categoryId = useSelector(state => state.filter.categoryId);
-    const sortType = useSelector(state => state.filter.sort)
+    const sortType = useSelector(state => state.filter.sort);
 
-    const [currentPage, setCurrentPage] = useState(1);
     const [orderType, setOrderType] = useState(true);
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const Home = ({ searchValue }) => {
                         })
                 }
             </div>
-            <Pagination setCurrentPage={setCurrentPage} />
+            <Pagination currentPage={currentPage} />
         </ div>
     )
 }
