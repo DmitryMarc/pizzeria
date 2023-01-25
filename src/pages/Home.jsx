@@ -4,22 +4,22 @@ import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Sort from '../components/Sort';
 import Preloader from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
+import { useSelector } from 'react-redux';
 
 const Home = ({ searchValue }) => {
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [categoryId, setCategoryId] = useState(0);
+
+    const categoryId = useSelector(state => state.filter.categoryId);
+    const sortType = useSelector(state => state.filter.sort)
+
     const [currentPage, setCurrentPage] = useState(1);
-    const [sortType, setSortType] = useState({
-        name: 'популярности',
-        sortProperty: 'rating'
-    });
     const [orderType, setOrderType] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
         fetch(`https://63cae056f36cbbdfc76246cf.mockapi.io/items?page=${currentPage}&limit=4${categoryId > 0
-            ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${orderType
+            ? `&category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${orderType
                 ? 'desc' : 'asc'}${searchValue ? `&search=${searchValue}` : ''}`)
             .then(res => res.json())
             .then(jsonArray => {
@@ -32,8 +32,8 @@ const Home = ({ searchValue }) => {
     return (
         <div className="container">
             <div className="content__top">
-                <Categories categoryId={categoryId} setCategoryId={setCategoryId} />
-                <Sort sortType={sortType} setSortType={setSortType}
+                <Categories categoryId={categoryId} />
+                <Sort sortType={sortType}
                     orderType={orderType} setOrderType={setOrderType} />
             </div>
             <h2 className="content__title">Все пиццы:</h2>
