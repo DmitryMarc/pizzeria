@@ -3,15 +3,16 @@ import React from 'react'
 import { useDispatch } from "react-redux";
 import { setSortType } from "../redux/slices/filterSlice";
 
+export const listSort = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' }
+];
+
 function Sort({ sortType, orderType, setOrderType }) {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
-  const listSort = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' }
-  ];
 
   const onClickListItem = (listItem) => {
     dispatch(setSortType(listItem));
