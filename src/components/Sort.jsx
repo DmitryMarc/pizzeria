@@ -1,5 +1,4 @@
-import { useState } from "react";
-import React from 'react'
+import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { setSortType } from "../redux/slices/filterSlice";
 
@@ -20,7 +19,7 @@ function Sort({ sortType, orderType, setOrderType }) {
   }
 
   return (
-    <div className="sort">
+    <div className="sort" tabIndex={0} onBlur={() => setIsOpen(false)}>
       <div className="sort__label">
         <svg
           onClick={() => setOrderType(!orderType)}
