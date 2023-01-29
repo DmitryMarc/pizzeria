@@ -7,18 +7,19 @@ import Pagination from '../components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom';
-import { setFilters } from '../redux/slices/filterSlice';
+import { setFilters, setOrderType } from '../redux/slices/filterSlice';
 import { useRef } from 'react';
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 const Home = () => {
-    const [orderType, setOrderType] = useState(true);
-
+    // const [orderType, setOrderType] = useState(true);
+    
     const dispatch = useDispatch();
     const isSearch = useRef(false);
     const isMounted = useRef(false);
-
+    
     const searchValue = useSelector(state => state.filter.searchValue);
+    const orderType = useSelector(state => state.filter.orderType);
     const currentPage = useSelector(state => state.filter.currentPage);
     const categoryId = useSelector(state => state.filter.categoryId);
     const sortType = useSelector(state => state.filter.sort);
@@ -92,7 +93,7 @@ const Home = () => {
             <div className="content__top">
                 <Categories categoryId={categoryId} />
                 <Sort sortType={sortType}
-                    orderType={orderType} setOrderType={setOrderType} />
+                    orderType={orderType} />
             </div>
             {status === 'error'
                 ? 
