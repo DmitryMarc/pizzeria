@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { setSortType } from "../redux/slices/filterSlice";
+import { setOrderType, setSortType } from "../redux/slices/filterSlice";
 
 export const listSort = [
   { name: 'популярности', sortProperty: 'rating' },
@@ -8,7 +8,7 @@ export const listSort = [
   { name: 'алфавиту', sortProperty: 'title' }
 ];
 
-function Sort({ sortType, orderType, setOrderType }) {
+function Sort({ sortType, orderType }) {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +22,7 @@ function Sort({ sortType, orderType, setOrderType }) {
     <div className="sort" tabIndex={0} onBlur={() => setIsOpen(false)}>
       <div className="sort__label">
         <svg
-          onClick={() => setOrderType(!orderType)}
+          onClick={() => dispatch(setOrderType(!orderType))}
           transform={orderType ? 'rotate(-180 0 0)' : ''}
           width="15"
           height="9"
