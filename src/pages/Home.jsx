@@ -5,15 +5,13 @@ import Sort, { listSort } from '../components/Sort';
 import Preloader from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom';
 import { setFilters } from '../redux/slices/filterSlice';
 import { useRef } from 'react';
+import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 const Home = () => {
-    const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [orderType, setOrderType] = useState(true);
 
     const dispatch = useDispatch();
@@ -24,18 +22,31 @@ const Home = () => {
     const currentPage = useSelector(state => state.filter.currentPage);
     const categoryId = useSelector(state => state.filter.categoryId);
     const sortType = useSelector(state => state.filter.sort);
+    const { items, status } = useSelector(state => state.pizzas);
+
 
     const navigate = useNavigate();
 
-    const fetchPizzas = () => {
-        setIsLoading(true);
-        axios.get(`https://63cae056f36cbbdfc76246cf.mockapi.io/items?page=${currentPage}&limit=4${categoryId > 0
-            ? `&category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${orderType
-                ? 'desc' : 'asc'}${searchValue ? `&search=${searchValue}` : ''}`).then(res => {
-                    setItems(res.data);
-                    setIsLoading(false);
-                }
-                )
+    const getPizzas = async () => {
+        // setIsLoading(true);
+        try {
+            dispatch(fetchPizzas({
+                categoryId,
+                sortType,
+                orderType,
+                searchValue,
+                currentPage
+            }));
+            // setIsLoading(false);
+        }
+        catch (error) {
+            // setIsLoading(false);
+            console.log('ERROR', error);
+            alert('Ошибка при получении пицц');
+        }
+        finally {
+            // setIsLoading(false);
+        }
     }
     // При первом рендере проверяем URL-параметры и сохраняем их в redux
     useEffect(() => {
@@ -55,7 +66,7 @@ const Home = () => {
         window.scrollTo(0, 0);
 
         if (!isSearch.current) {
-            fetchPizzas();
+            getPizzas();
         }
 
         isSearch.current = false;
@@ -83,16 +94,26 @@ const Home = () => {
                 <Sort sortType={sortType}
                     orderType={orderType} setOrderType={setOrderType} />
             </div>
-            <h2 className="content__title">Все пиццы:</h2>
-            <div className="content__items">
-                {
-                    isLoading
-                        ? [...new Array(6)].map((_, index) => <Preloader key={index} />)
-                        : items.map(pizzasItem => {
-                            return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
-                        })
-                }
-            </div>
+            {status === 'error'
+                ? 
+                <div className="content__error-info">
+                    <h2>Произошла ошибка</h2>
+                    <p>К сожалению, не удалось получить пиццы. Попробуйте повторить попытку позже.</p>
+                </div>
+                :
+                <>
+                <h2 className="content__title">Все пиццы:</h2>
+                <div className="content__items">
+                    {
+                        status === 'loading'
+                            ? [...new Array(6)].map((_, index) => <Preloader key={index} />)
+                            : items.map(pizzasItem => {
+                                return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
+                            })
+                    }
+                </div>
+                </>
+            }
             <Pagination currentPage={currentPage} />
         </ div>
     )
