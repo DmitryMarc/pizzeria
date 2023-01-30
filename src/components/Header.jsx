@@ -20,12 +20,16 @@ function Header() {
                         </div>
                     </div>
                 </Link>
-                <Search />
-                <div className="header__cart">
-                    {location.pathname !== '/cart' &&
+                {location.pathname === '/' && <>
+                    <Search />
+                    <div className="header__cart">
                         <Link to="/cart" className="button button--cart">
-                            <span>{totalPrice} ₽</span>
-                            <div className="button__delimiter"></div>
+                            {!!totalPrice &&
+                                <>
+                                    <span>{totalPrice} ₽</span>
+                                    <div className="button__delimiter"></div>
+                                </>
+                            }
                             <svg
                                 width="18"
                                 height="18"
@@ -69,8 +73,9 @@ function Header() {
                             </svg>
                             <span>{totalCount}</span>
                         </Link>
-                    }
-                </div>
+                    </div>
+                </>
+                }
             </div>
         </div>
     )

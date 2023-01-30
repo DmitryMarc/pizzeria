@@ -27,7 +27,8 @@ body {
 .content {
   padding: 40px 0;
 
-  &__error-info {
+  &__error-info,
+  &__not-found {
     margin: 20vh auto;
     width: 500px;
     text-align: center;
@@ -107,6 +108,36 @@ body {
       margin: 0;
     }
   }
+
+  .pizza__wrapper{
+    max-width: 500px;
+    margin: 0 auto;
+    
+    &--img{
+      width: 100%;
+    }
+
+    &--title,
+    &--price{
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    &--title{
+      margin-right: 10px;
+    }
+
+    &--price{
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    &--description{
+      padding-right: 10px;
+      text-align: justify;
+    }
+  }
+  
 }
 
 .cart {
