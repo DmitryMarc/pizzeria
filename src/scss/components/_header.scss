@@ -8,6 +8,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 450px) {
+      flex-direction: column;
+      gap: 20px
+    }
   }
 
   &__logo {
@@ -27,6 +32,44 @@
 
     p {
       color: #7b7b7b;
+    }
+  }
+
+  &__cart {
+
+    @media (max-width: 670px) {
+      .button--cart {
+        padding: 10px;
+        min-width: min-content;
+        text-align: center;
+      }
+
+      span {
+        display: none;
+      }
+
+      div {
+        display: none;
+      }
+    }
+
+    @media (max-width: 450px) {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+
+      .button--cart {
+        display: inline-block;
+        padding: 10px;
+        width: 100%;
+        text-align: center;
+      }
+
+      span,
+      div,
+      svg {
+        display: inline-block;
+      }
     }
   }
 }
