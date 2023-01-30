@@ -12,6 +12,10 @@ const CartItem = ({id, title, type, size, count, price, imageUrl}) => {
 
     const onClickMinus = () => {
         dispatch(minusItem(id));
+        if (count === 1) {
+            debugger;
+            dispatch(removeItem(id));
+        }
     }
 
     const onClickRemove = () => {
