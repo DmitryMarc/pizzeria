@@ -1,19 +1,30 @@
+import { FC } from 'react';
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { setOrderType, setSortType } from "../redux/slices/filterSlice";
 
-export const listSort = [
+type SortItemType = {
+  name: string,
+  sortProperty: string
+}
+
+export const listSort: SortItemType[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: 'title' }
 ];
 
-function Sort({ sortType, orderType }) {
+type SortPropsType = {
+  sortType: SortItemType,
+  orderType: boolean
+}
+
+const Sort:FC<SortPropsType> = ({ sortType, orderType }) => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onClickListItem = (listItem) => {
+  const onClickListItem = (listItem: SortItemType) => {
     dispatch(setSortType(listItem));
     setIsOpen(false);
   }
@@ -49,7 +60,7 @@ function Sort({ sortType, orderType }) {
             {
               listSort.map((listItem, index) => {
                 return <li key={index} onClick={() => onClickListItem(listItem)}
-                  className={sortType.sortProperty === listSort.sortProperty
+                  className={sortType.sortProperty === listSort[index].sortProperty
                     ? "active" : ''}>{listItem.name}</li>
               })
             }
