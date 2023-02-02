@@ -16,8 +16,9 @@ import {
     selectOrderType, selectSearchValue,
     selectSortType
 } from '../redux/slices/selectors/filterSelectors';
+import { FC } from 'react';
 
-const Home = () => {
+const Home:FC = () => {
     const dispatch = useDispatch();
     const isSearch = useRef(false);
     const isMounted = useRef(false);
@@ -34,7 +35,7 @@ const Home = () => {
 
     const getPizzas = async () => {
         // setIsLoading(true);
-        try {
+        try { //@ts-ignore
             dispatch(fetchPizzas({
                 categoryId,
                 sortType,
@@ -112,7 +113,7 @@ const Home = () => {
                         {
                             status === 'loading'
                                 ? [...new Array(6)].map((_, index) => <Preloader key={index} />)
-                                : items.map(pizzasItem => {
+                                : items.map((pizzasItem:any) => {
                                     return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
                                 })
                         }

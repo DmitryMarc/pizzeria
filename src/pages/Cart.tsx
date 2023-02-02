@@ -1,7 +1,7 @@
+import { FC } from "react";
 import CartBlock from "../components/CartBlock/CartBlock";
-import Home from "./Home";
 
-const Cart = () => {
+const Cart:FC = () => {
     return (
         <>
             <CartBlock />

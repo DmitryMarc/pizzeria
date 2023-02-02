@@ -1,12 +1,16 @@
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setCategoryId } from "../redux/slices/filterSlice";
 
-function Categories({categoryId}) {
+type CategoriesPropsType = {
+  categoryId: number
+}
+const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые']
+
+const Categories: FC<CategoriesPropsType> = ({categoryId}) => {
   const dispatch = useDispatch();
   
-  const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые']
-
-  const onClickCategory = (index) => {
+  const onClickCategory = (index: number) => {
     dispatch(setCategoryId(index))
   }
 
