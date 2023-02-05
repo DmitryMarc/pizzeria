@@ -1,22 +1,22 @@
 import qs from 'qs';
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination/Pagination';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Preloader from '../components/PizzaBlock/Skeleton';
 import Sort, { listSort } from '../components/Sort';
-import { FilterSliceState, SetFilterArg, setFilters } from '../redux/slices/filterSlice';
+import { SetFilterArg, setFilters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
 import { selectPizzas } from '../redux/slices/selectors/pizzasSelectors';
 
+import { FC } from 'react';
 import {
     selectCategoryId, selectCurrentPage,
     selectOrderType, selectSearchValue,
     selectSortType
 } from '../redux/slices/selectors/filterSelectors';
-import { FC } from 'react';
 import { useAppDispatch } from '../redux/store';
 
 const Home: FC = () => {
@@ -31,11 +31,9 @@ const Home: FC = () => {
     const sortType = useSelector(selectSortType);
     const { items, status } = useSelector(selectPizzas);
 
-
     const navigate = useNavigate();
 
     const getPizzas = async () => {
-        // setIsLoading(true);
         try {
             dispatch(fetchPizzas({
                 categoryId,
@@ -44,15 +42,10 @@ const Home: FC = () => {
                 searchValue,
                 currentPage
             }));
-            // setIsLoading(false);
         }
         catch (error) {
-            // setIsLoading(false);
             console.log('ERROR', error);
             alert('Ошибка при получении пицц');
-        }
-        finally {
-            // setIsLoading(false);
         }
     }
     // При первом рендере проверяем URL-параметры и сохраняем их в redux
@@ -60,10 +53,10 @@ const Home: FC = () => {
         if (window.location.search) {
             const params = qs.parse(window.location.search.substring(1)) as SetFilterArg;
             const sort = listSort.find(listItem => listItem.sortProperty === params.sort.sortProperty);
-                dispatch(setFilters({
-                    ...params,
-                    sort: sort || listSort[0]
-                }));
+            dispatch(setFilters({
+                ...params,
+                sort: sort || listSort[0]
+            }));
             isSearch.current = true;
         }
     }, [])
