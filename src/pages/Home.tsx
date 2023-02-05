@@ -7,7 +7,7 @@ import Pagination from '../components/Pagination/Pagination';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Preloader from '../components/PizzaBlock/Skeleton';
 import Sort, { listSort } from '../components/Sort';
-import { setFilters } from '../redux/slices/filterSlice';
+import { FilterSliceState, SetFilterArg, setFilters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
 import { selectPizzas } from '../redux/slices/selectors/pizzasSelectors';
 
@@ -17,9 +17,10 @@ import {
     selectSortType
 } from '../redux/slices/selectors/filterSelectors';
 import { FC } from 'react';
+import { useAppDispatch } from '../redux/store';
 
-const Home:FC = () => {
-    const dispatch = useDispatch();
+const Home: FC = () => {
+    const dispatch = useAppDispatch();
     const isSearch = useRef(false);
     const isMounted = useRef(false);
 
@@ -35,7 +36,7 @@ const Home:FC = () => {
 
     const getPizzas = async () => {
         // setIsLoading(true);
-        try { //@ts-ignore
+        try {
             dispatch(fetchPizzas({
                 categoryId,
                 sortType,
@@ -57,13 +58,12 @@ const Home:FC = () => {
     // При первом рендере проверяем URL-параметры и сохраняем их в redux
     useEffect(() => {
         if (window.location.search) {
-            const params = qs.parse(window.location.search.substring(1));
-            const sort = listSort.find(listItem => listItem.sortProperty === params.sortProperty);
-
-            dispatch(setFilters({
-                ...params,
-                sort
-            }));
+            const params = qs.parse(window.location.search.substring(1)) as SetFilterArg;
+            const sort = listSort.find(listItem => listItem.sortProperty === params.sort.sortProperty);
+                dispatch(setFilters({
+                    ...params,
+                    sort: sort || listSort[0]
+                }));
             isSearch.current = true;
         }
     }, [])
@@ -113,7 +113,7 @@ const Home:FC = () => {
                         {
                             status === 'loading'
                                 ? [...new Array(6)].map((_, index) => <Preloader key={index} />)
-                                : items.map((pizzasItem:any) => {
+                                : items.map((pizzasItem: any) => {
                                     return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
                                 })
                         }

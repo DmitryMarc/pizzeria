@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { setOrderType, setSortType } from "../redux/slices/filterSlice";
 
 type SortItemType = {
-  name: string,
-  sortProperty: string
+  name: 'популярности' | 'цене' | 'алфавиту',
+  sortProperty: 'rating' | 'price' | 'title'
 }
 
 export const listSort: SortItemType[] = [
