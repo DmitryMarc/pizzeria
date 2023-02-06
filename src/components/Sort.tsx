@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { setOrderType, setSortType } from "../redux/slices/filterSlice";
+import { setOrderType, setSortType } from "../redux/filter/filterSlice";
 
 type SortItemType = {
   name: 'популярности' | 'цене' | 'алфавиту',
