@@ -1,25 +1,16 @@
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { calcTotalCount } from '../../utils/calcTotalCount'
+import { calcTotalPrice } from '../../utils/calcTotalPrice'
+import { getCartFromLocalStorage } from '../../utils/getCartFromLocalStorage'
+import { CartItemType, CartSliceState } from './cartTypes';
 
-export type CartItemType = {
-    id: string,
-    title: string,
-    price: number,
-    imageUrl: string,
-    type: string,
-    size: number,
-    count: number
-}
-
-export interface CartSliceState {
-    totalPrice: number,
-    totalCount: number,
-    items: CartItemType[]
-}
+const { items, totalPrice, totalCount } = getCartFromLocalStorage();
 
 const initialState: CartSliceState = {
-    totalPrice: 0,
-    totalCount: 0,
-    items: []
+    totalPrice: totalPrice,
+    totalCount: totalCount,
+    items: items
 }
 
 export const cartSlice = createSlice({
@@ -36,13 +27,8 @@ export const cartSlice = createSlice({
                     ...action.payload, count: 1
                 });
             }
-            state.totalPrice = state.items.reduce((sum, item) => {
-                return (item.price * item.count) + sum;
-            }, 0)
-
-            state.totalCount = state.items.reduce((sum, item) => {
-                return item.count + sum;
-            }, 0)
+            state.totalPrice = calcTotalPrice(state.items);
+            state.totalCount = calcTotalCount(state.items);
         },
         minusItem(state, action: PayloadAction<string>) {
             const findItem = state.items.find(item => item.id === action.payload)
@@ -53,12 +39,8 @@ export const cartSlice = createSlice({
         },
         removeItem(state, action: PayloadAction<string>) { //как-то оптимизировать:
             state.items = state.items.filter(item => item.id !== action.payload)
-            state.totalPrice = state.items.reduce((sum, item) => {
-                return (item.price * item.count) + sum;
-            }, 0)
-            state.totalCount = state.items.reduce((sum, item) => {
-                return item.count + sum;
-            }, 0)
+            state.totalPrice = calcTotalPrice(state.items);
+            state.totalCount = calcTotalCount(state.items);
         },
         clearItems(state) {
             state.items = []

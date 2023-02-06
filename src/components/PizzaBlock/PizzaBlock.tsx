@@ -2,21 +2,22 @@ import { FC } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addItem, CartItemType } from "../../redux/slices/cartSlice";
-import { selectCartItemById } from "../../redux/slices/selectors/cartSelectors";
+import { addItem } from "../../redux/cart/cartSlice";
+import { selectCartItemById } from "../../redux/cart/cartSelectors";
+import { CartItemType } from "../../redux/cart/cartTypes";
 
 const typesNames = ['тонкое', 'традиционное'];
 
-type PizzaBlockPropsType = { 
-    id: string, 
-    title: string, 
-    price: number, 
-    imageUrl: string, 
-    types: number[], 
+type PizzaBlockPropsType = {
+    id: string,
+    title: string,
+    price: number,
+    imageUrl: string,
+    types: number[],
     sizes: number[]
 }
 
-const PizzaBlock:FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types, sizes }) => {
+const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types, sizes }) => {
     const [activeType, setActiveType] = useState(0);
     const [activeSize, setActiveSize] = useState(0);
     const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const PizzaBlock:FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types,
         setActiveSize(index);
     }
     const onClickAdd = () => {
-        const item:CartItemType = {
+        const item: CartItemType = {
             id,
             title,
             price,
@@ -44,13 +45,13 @@ const PizzaBlock:FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types,
     return (
         <div className="pizza-block-wrapper">
             <div className="pizza-block">
-            <Link to={`/pizza/${id}`}>
-                <img
-                    className="pizza-block__image"
-                    src={imageUrl}
-                    alt="Pizza"
-                />
-                <h4 className="pizza-block__title">{title}</h4>
+                <Link to={`/pizza/${id}`}>
+                    <img
+                        className="pizza-block__image"
+                        src={imageUrl}
+                        alt="Pizza"
+                    />
+                    <h4 className="pizza-block__title">{title}</h4>
                 </Link>
                 <div className="pizza-block__selector">
                     <ul>
@@ -89,7 +90,7 @@ const PizzaBlock:FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types,
                             />
                         </svg>
                         <span>Добавить</span>
-                        { addedCount > 0 && <i>{addedCount}</i>}
+                        {addedCount > 0 && <i>{addedCount}</i>}
                     </button>
                 </div>
             </div>

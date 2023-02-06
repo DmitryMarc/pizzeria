@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId } from "../redux/filter/filterSlice";
 
 type CategoriesPropsType = {
   categoryId: number
