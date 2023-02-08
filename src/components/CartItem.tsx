@@ -17,7 +17,7 @@ const CartItem: FC<CartItemPropsType> = React.memo(({ id, title, type, size, cou
     const dispatch = useDispatch();
 
     const onClickPlus = () => {
-        dispatch(addItem({ id } as CartItemType));
+        dispatch(addItem({ id, title, type, size, price, imageUrl } as CartItemType));
     }
 
     const onClickMinus = () => {

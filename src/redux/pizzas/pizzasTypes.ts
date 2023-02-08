@@ -14,7 +14,9 @@ export type PizzaType = {
     price: number,
     imageUrl: string,
     types: number[],
-    sizes: number[]
+    sizes: number[],
+    defaultPrice: number,
+    defaultSize: number
 }
 
 export enum Status {

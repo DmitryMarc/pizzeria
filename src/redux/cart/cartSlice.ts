@@ -17,25 +17,32 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addItem(state, action: PayloadAction<CartItemType>) {
-            const findItem = state.items.find(item => item.id === action.payload.id)
+        addItem(state, action: PayloadAction<CartItemType>) {  
+            const findItem = state.items.find(item => item.id.slice(0, action.payload.id.length) === action.payload.id && 
+                item.type === action.payload.type && item.size === action.payload.size);
             if (findItem) {
                 findItem.count++;
             }
             else {
+                let {id, type, size, ...restData} = action.payload
                 state.items.push({
-                    ...action.payload, count: 1
+                    id: id + type + size,
+                    type, 
+                    size,
+                    ...restData, 
+                    count: 1
                 });
             }
             state.totalPrice = calcTotalPrice(state.items);
             state.totalCount = calcTotalCount(state.items);
         },
         minusItem(state, action: PayloadAction<string>) {
-            const findItem = state.items.find(item => item.id === action.payload)
+            const findItem = state.items.find(item => item.id.includes(action.payload))
             if (findItem && findItem.count > 0) {
                 findItem.count--;
             }
-
+            state.totalPrice = calcTotalPrice(state.items);
+            state.totalCount = calcTotalCount(state.items);
         },
         removeItem(state, action: PayloadAction<string>) { //как-то оптимизировать:
             state.items = state.items.filter(item => item.id !== action.payload)
