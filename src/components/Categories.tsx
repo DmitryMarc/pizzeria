@@ -1,15 +1,15 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { useDispatch } from "react-redux";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId } from "../redux/filter/filterSlice";
 
 type CategoriesPropsType = {
   categoryId: number
 }
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые']
 
-const Categories: FC<CategoriesPropsType> = ({categoryId}) => {
+const Categories: FC<CategoriesPropsType> = React.memo(({ categoryId }) => {
   const dispatch = useDispatch();
-  
+
   const onClickCategory = (index: number) => {
     dispatch(setCategoryId(index))
   }
@@ -26,6 +26,6 @@ const Categories: FC<CategoriesPropsType> = ({categoryId}) => {
       </ul>
     </div>
   )
-}
+})
 
 export default Categories;

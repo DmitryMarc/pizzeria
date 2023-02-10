@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { setOrderType, setSortType } from "../redux/slices/filterSlice";
+import { setOrderType, setSortType } from "../redux/filter/filterSlice";
 
 type SortItemType = {
-  name: string,
-  sortProperty: string
+  name: 'популярности' | 'цене' | 'алфавиту',
+  sortProperty: 'rating' | 'price' | 'title'
 }
 
 export const listSort: SortItemType[] = [
@@ -19,7 +19,7 @@ type SortPropsType = {
   orderType: boolean
 }
 
-const Sort:FC<SortPropsType> = ({ sortType, orderType }) => {
+const Sort: FC<SortPropsType> = React.memo(({ sortType, orderType }) => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -69,6 +69,6 @@ const Sort:FC<SortPropsType> = ({ sortType, orderType }) => {
       }
     </div>
   )
-}
+})
 
 export default Sort;

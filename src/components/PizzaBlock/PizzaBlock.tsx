@@ -1,55 +1,76 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addItem } from "../../redux/slices/cartSlice";
-import { selectCartItemById } from "../../redux/slices/selectors/cartSelectors";
+import { addItem } from "../../redux/cart/cartSlice";
+import { selectCartItemById } from "../../redux/cart/cartSelectors";
+import { CartItemType } from "../../redux/cart/cartTypes";
+import { setPrice } from "../../redux/pizzas/pizzasSlice";
+import { calcTotalCount } from "../../utils/calcTotalCount";
 
 const typesNames = ['тонкое', 'традиционное'];
 
-type PizzaBlockPropsType = { 
-    id: string, 
-    title: string, 
-    price: number, 
-    imageUrl: string, 
-    types: number[], 
+type PizzaBlockPropsType = {
+    id: string,
+    title: string,
+    price: number,
+    imageUrl: string,
+    types: number[],
     sizes: number[]
 }
 
-const PizzaBlock:FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types, sizes }) => {
+const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types, sizes}) => {
+    debugger;
+    const cartItem = useSelector(selectCartItemById(id));
     const [activeType, setActiveType] = useState(0);
     const [activeSize, setActiveSize] = useState(0);
+    const [addedCount, setAddedCount] = useState(calcTotalCount(cartItem));
     const dispatch = useDispatch();
-    const cartItem = useSelector(selectCartItemById(id));
-    const addedCount = cartItem ? cartItem.count : 0;
+
+    useEffect(() => {
+        setAddedCount(calcTotalCount(cartItem));
+    }, [cartItem])
 
     const onClickSlectedType = (index: number) => {
         setActiveType(index);
+        dispatch(setPrice({
+            id: id, 
+            type: index, 
+            size: sizes[activeSize]
+        }));
     }
     const onClickSlectedSize = (index: number) => {
         setActiveSize(index);
+        debugger;
+        dispatch(setPrice({
+            id: id, 
+            type: activeType, 
+            size: sizes[index]
+        }));
     }
     const onClickAdd = () => {
-        const item = {
+        const item: CartItemType = {
             id,
             title,
             price,
             imageUrl,
             type: typesNames[activeType],
-            size: sizes[activeSize]
+            size: sizes[activeSize],
+            count: 0
         }
         dispatch(addItem(item))
+        setAddedCount(calcTotalCount(cartItem));
     }
     return (
         <div className="pizza-block-wrapper">
             <div className="pizza-block">
-            <Link to={`/pizza/${id}`}>
-                <img
-                    className="pizza-block__image"
-                    src={imageUrl}
-                    alt="Pizza"
-                />
-                <h4 className="pizza-block__title">{title}</h4>
+                <Link to={`/pizza/${id}`}>
+                    <img
+                        className="pizza-block__image"
+                        src={imageUrl}
+                        alt="Pizza"
+                    />
+                    <h4 className="pizza-block__title">{title}</h4>
                 </Link>
                 <div className="pizza-block__selector">
                     <ul>
@@ -70,7 +91,7 @@ const PizzaBlock:FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types,
                     </ul>
                 </div>
                 <div className="pizza-block__bottom">
-                    <div className="pizza-block__price">от {price} ₽</div>
+                    <div className="pizza-block__price">{price} ₽</div>
                     <button onClick={onClickAdd} className="button button--outline button--add">
                         <svg
                             width="12"
@@ -88,7 +109,7 @@ const PizzaBlock:FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types,
                             />
                         </svg>
                         <span>Добавить</span>
-                        { addedCount > 0 && <i>{addedCount}</i>}
+                        {addedCount > 0 && <i>{addedCount}</i>}
                     </button>
                 </div>
             </div>
