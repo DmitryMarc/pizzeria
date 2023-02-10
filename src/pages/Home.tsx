@@ -107,7 +107,7 @@ const Home: FC = () => {
                         {
                             status === 'loading'
                                 ? [...new Array(6)].map((_, index) => <Preloader key={index} />)
-                                : items.map((pizzasItem: any) => {
+                                : items.map((pizzasItem) => {
                                     return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
                                 })
                         }
