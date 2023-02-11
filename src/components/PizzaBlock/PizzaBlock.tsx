@@ -20,7 +20,6 @@ type PizzaBlockPropsType = {
 }
 
 const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types, sizes}) => {
-    debugger;
     const cartItem = useSelector(selectCartItemById(id));
     const [activeType, setActiveType] = useState(0);
     const [activeSize, setActiveSize] = useState(0);
@@ -41,7 +40,6 @@ const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types
     }
     const onClickSlectedSize = (index: number) => {
         setActiveSize(index);
-        debugger;
         dispatch(setPrice({
             id: id, 
             type: activeType, 

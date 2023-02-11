@@ -102,7 +102,7 @@ const Home: FC = () => {
                 </div>
                 :
                 <>
-                    <h2 className="content__title">Все пиццы:</h2>
+                    {items.length > 0 && <h2 className="content__title">Все пиццы:</h2>}
                     <div className="content__items">
                         {
                             status === 'loading'
@@ -114,7 +114,7 @@ const Home: FC = () => {
                     </div>
                 </>
             }
-            <Pagination currentPage={currentPage} />
+            <Pagination currentPage={currentPage} arrayLength={items.length} />
         </ div>
     )
 }
