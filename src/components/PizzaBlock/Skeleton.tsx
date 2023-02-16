@@ -2,7 +2,7 @@ import { FC } from "react";
 import ContentLoader from "react-content-loader";
 
 const Preloader: FC = (props) => (
-    <div className="pizza-block-wrapper">
+    <div className="pizza-block-wrapper skeleton">
         <ContentLoader
             className="pizza-block"
             speed={2}

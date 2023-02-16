@@ -8,6 +8,10 @@
   &-wrapper {
     display: flex;
     justify-content: center;
+
+    &.skeleton{
+      margin-top: 90px;
+    }
   }
 
   &__image {
