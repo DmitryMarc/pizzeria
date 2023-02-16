@@ -52,12 +52,12 @@ const Home: FC = () => {
     // При первом рендере проверяем URL-параметры и сохраняем их в redux
     useEffect(() => {
         if (window.location.search) {
-            const params = qs.parse(window.location.search.substring(1)) as SetFilterArg;
-            const sort = listSort.find(listItem => listItem.sortProperty === params.sort.sortProperty);
+            const params = qs.parse(window.location.search.substring(1));
+            const sort = listSort.find(listItem => listItem.sortProperty === params.sortProperty);
             dispatch(setFilters({
                 ...params,
                 sort: sort || listSort[0]
-            }));
+            } as SetFilterArg));
             isSearch.current = true;
         }
     }, [])
