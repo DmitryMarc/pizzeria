@@ -18,6 +18,9 @@ export const filterSlice = createSlice({
     reducers: {
         setCategoryId(state, action:PayloadAction<number>) {
             state.categoryId = action.payload
+            if (state.currentPage > 1) {
+                state.currentPage = 1;
+            }
         },
         setSortType: (state, action:PayloadAction<SortType>) => {
             state.sort = action.payload
@@ -30,6 +33,9 @@ export const filterSlice = createSlice({
         },
         setSearchValue: (state, action:PayloadAction<string>) => {
             state.searchValue = action.payload;
+            if (state.currentPage > 1) {
+                state.currentPage = 1;
+            }
         },
         setFilters(state, action:PayloadAction<SetFilterArg>){
             state.currentPage = Number(action.payload.currentPage)

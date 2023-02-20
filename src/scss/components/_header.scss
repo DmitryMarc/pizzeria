@@ -82,6 +82,10 @@
           div {
             display: none;
           }
+
+          span:last-child {
+            display: block;
+          }
         }
       }
     }

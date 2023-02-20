@@ -102,7 +102,8 @@ const Home: FC = () => {
                 </div>
                 :
                 <>
-                    {items.length > 0 && <h2 className="content__title">Все пиццы:</h2>}
+                    {!!items.length && <h2 className="content__title">Все пиццы:</h2>}
+                    {!items.length && status === 'success' && <h2 className="content__title">Ничего нет :(</h2>}
                     <div className="content__items">
                         {
                             status === 'loading'
@@ -114,7 +115,9 @@ const Home: FC = () => {
                     </div>
                 </>
             }
-            <Pagination currentPage={currentPage} arrayLength={items.length} />
+            {((items.length === 4) || (!!items.length && currentPage > 1)) &&
+                <Pagination currentPage={currentPage} arrayLength={items.length} />
+            }   
         </ div>
     )
 }
