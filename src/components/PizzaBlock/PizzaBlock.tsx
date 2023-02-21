@@ -62,7 +62,7 @@ const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types
     return (
         <div className="pizza-block-wrapper">
             <div className="pizza-block">
-                <Link to={`/pizza/${id}`}>
+                <Link to={`/pizzeria/pizza/${id}`}>
                     <img
                         className="pizza-block__image"
                         src={imageUrl}
