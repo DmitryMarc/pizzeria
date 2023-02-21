@@ -1,12 +1,14 @@
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addItem } from "../../redux/cart/cartSlice";
-import { selectCartItemById } from "../../redux/cart/cartSelectors";
+import { selectCartItemById, selectCartItems } from "../../redux/cart/cartSelectors";
 import { CartItemType } from "../../redux/cart/cartTypes";
 import { setPrice } from "../../redux/pizzas/pizzasSlice";
 import { calcTotalCount } from "../../utils/calcTotalCount";
+// import {v1} from 'uuid';
+import { useWhyDidYouUpdate } from 'ahooks';
 
 const typesNames = ['тонкое', 'традиционное'];
 
@@ -19,16 +21,19 @@ type PizzaBlockPropsType = {
     sizes: number[]
 }
 
-const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types, sizes}) => {
-    const cartItem = useSelector(selectCartItemById(id));
+const PizzaBlock: FC<PizzaBlockPropsType> = React.memo( ({ id, title, price, imageUrl, types, sizes}) => {
+    useWhyDidYouUpdate('useWhyDidYouUpdateComponent', { id, title, price, imageUrl, types, sizes});
+    
+    const currentCartItem = useSelector(selectCartItemById(id));
+    const cartItems = useSelector(selectCartItems);
     const [activeType, setActiveType] = useState(0);
     const [activeSize, setActiveSize] = useState(0);
-    const [addedCount, setAddedCount] = useState(calcTotalCount(cartItem));
+    const [addedCount, setAddedCount] = useState(calcTotalCount(currentCartItem));
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setAddedCount(calcTotalCount(cartItem));
-    }, [cartItem])
+        setAddedCount(calcTotalCount(currentCartItem));
+    }, [cartItems])
 
     const onClickSlectedType = (index: number) => {
         setActiveType(index);
@@ -56,8 +61,7 @@ const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types
             size: sizes[activeSize],
             count: 0
         }
-        dispatch(addItem(item))
-        setAddedCount(calcTotalCount(cartItem));
+        dispatch(addItem(item));
     }
     return (
         <div className="pizza-block-wrapper">
@@ -113,6 +117,6 @@ const PizzaBlock: FC<PizzaBlockPropsType> = ({ id, title, price, imageUrl, types
             </div>
         </div>
     )
-}
+})
 
 export default PizzaBlock;

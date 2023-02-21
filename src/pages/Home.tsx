@@ -10,7 +10,8 @@ import Sort, { listSort } from '../components/Sort';
 import { setFilters } from '../redux/filter/filterSlice';
 import { selectPizzas } from '../redux/pizzas/pizzasSelectors';
 import { FC } from 'react';
-import {v1} from 'uuid';
+// import {v1} from 'uuid';
+// import uuid from 'react-uuid';
 import {
     selectCategoryId, selectCurrentPage,
     selectOrderType, selectSearchValue,
@@ -109,7 +110,7 @@ const Home: FC = () => {
                             status === 'loading'
                                 ? [...new Array(4)].map((_, index) => <Preloader key={index} />)
                                 : items.map((pizzasItem) => {
-                                    return <PizzaBlock key={v1()} {...pizzasItem} />
+                                    return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
                                 })
                         }
                     </div>
