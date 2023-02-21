@@ -1,15 +1,17 @@
 import { FC, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg';
 import { selectCart } from '../redux/cart/cartSelectors';
+import { setFilters } from '../redux/filter/filterSlice';
 import Search from './Search/Search';
 
 const Header: FC = () => {
     const { totalPrice, totalCount } = useSelector(selectCart);
+    const { items } = useSelector(selectCart);
+    const dispatch = useDispatch();
     const location = useLocation();
     const isMounted = useRef(false);
-    const { items } = useSelector(selectCart);
 
     useEffect(() => {
         if (isMounted.current) {
@@ -20,10 +22,23 @@ const Header: FC = () => {
         isMounted.current = true
     }, [items])
 
+    const onClickLogo = () => {
+        dispatch(setFilters({
+            searchValue: '',
+            categoryId: "0",
+            sort: {
+                name: 'популярности',
+                sortProperty: 'rating'
+            },
+            orderType: "true",
+            currentPage: "1"
+        }))
+    }
+
     return (
         <div className="header">
             <div className="container">
-                <Link to="/">
+                <Link to="/pizzeria" onClick={onClickLogo}>
                     <div className="header__logo">
                         <img width="38" src={logoSvg} alt="Pizza logo" />
                         <div>
@@ -32,10 +47,10 @@ const Header: FC = () => {
                         </div>
                     </div>
                 </Link>
-                {location.pathname === '/' && <>
+                {location.pathname === '/pizzeria' && <>
                     <Search />
                     <div className="header__cart">
-                        <Link to="/cart" className="button button--cart">
+                        <Link to="/pizzeria/cart" className="button button--cart">
                             {!!totalPrice &&
                                 <>
                                     <span>{totalPrice} ₽</span>
