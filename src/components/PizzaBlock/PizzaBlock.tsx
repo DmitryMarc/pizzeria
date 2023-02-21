@@ -7,8 +7,6 @@ import { selectCartItemById, selectCartItems } from "../../redux/cart/cartSelect
 import { CartItemType } from "../../redux/cart/cartTypes";
 import { setPrice } from "../../redux/pizzas/pizzasSlice";
 import { calcTotalCount } from "../../utils/calcTotalCount";
-// import {v1} from 'uuid';
-import { useWhyDidYouUpdate } from 'ahooks';
 
 const typesNames = ['тонкое', 'традиционное'];
 
@@ -22,7 +20,6 @@ type PizzaBlockPropsType = {
 }
 
 const PizzaBlock: FC<PizzaBlockPropsType> = React.memo( ({ id, title, price, imageUrl, types, sizes}) => {
-    useWhyDidYouUpdate('useWhyDidYouUpdateComponent', { id, title, price, imageUrl, types, sizes});
     
     const currentCartItem = useSelector(selectCartItemById(id));
     const cartItems = useSelector(selectCartItems);

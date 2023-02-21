@@ -36,6 +36,11 @@ export const filterSlice = createSlice({
             if (state.currentPage > 1) {
                 state.currentPage = 1;
             }
+            state.categoryId = 0;
+            state.sort = {
+                name: 'популярности',
+                sortProperty: 'rating'
+            }
         },
         setFilters(state, action:PayloadAction<SetFilterArg>){
             state.currentPage = Number(action.payload.currentPage)
