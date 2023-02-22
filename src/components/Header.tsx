@@ -38,7 +38,7 @@ const Header: FC = () => {
     return (
         <div className="header">
             <div className="container">
-                <Link to="/pizzeria" onClick={onClickLogo}>
+                <Link to="/pizzeria/" onClick={onClickLogo}>
                     <div className="header__logo">
                         <img width="38" src={logoSvg} alt="Pizza logo" />
                         <div>
@@ -47,7 +47,7 @@ const Header: FC = () => {
                         </div>
                     </div>
                 </Link>
-                {location.pathname === '/pizzeria' && <>
+                {location.pathname === '/pizzeria/' && <>
                     <Search />
                     <div className="header__cart">
                         <Link to="/pizzeria/cart" className="button button--cart">
