@@ -21,6 +21,9 @@ export const filterSlice = createSlice({
             if (state.currentPage > 1) {
                 state.currentPage = 1;
             }
+            if (action.payload && state.searchValue) {
+                state.searchValue = '';
+            }
         },
         setSortType: (state, action:PayloadAction<SortType>) => {
             state.sort = action.payload
