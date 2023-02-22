@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/pizzeria/static/css/main.4e8171cd.css",
-    "main.js": "/pizzeria/static/js/main.dd847b27.js",
-    "FullPizza.js": "/pizzeria/static/js/FullPizza.7f2a482f.chunk.js",
+    "main.js": "/pizzeria/static/js/main.37c1afea.js",
+    "FullPizza.js": "/pizzeria/static/js/FullPizza.ec214c05.chunk.js",
     "Cart.js": "/pizzeria/static/js/Cart.549b628d.chunk.js",
     "static/media/empty-cart.png": "/pizzeria/static/media/empty-cart.db905d1f4b063162f25b.png",
     "static/media/pizza-logo.svg": "/pizzeria/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
     "index.html": "/pizzeria/index.html",
     "main.4e8171cd.css.map": "/pizzeria/static/css/main.4e8171cd.css.map",
-    "main.dd847b27.js.map": "/pizzeria/static/js/main.dd847b27.js.map",
-    "FullPizza.7f2a482f.chunk.js.map": "/pizzeria/static/js/FullPizza.7f2a482f.chunk.js.map",
+    "main.37c1afea.js.map": "/pizzeria/static/js/main.37c1afea.js.map",
+    "FullPizza.ec214c05.chunk.js.map": "/pizzeria/static/js/FullPizza.ec214c05.chunk.js.map",
     "Cart.549b628d.chunk.js.map": "/pizzeria/static/js/Cart.549b628d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4e8171cd.css",
-    "static/js/main.dd847b27.js"
+    "static/js/main.37c1afea.js"
   ]
 }
