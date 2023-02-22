@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
@@ -7,19 +7,16 @@ import Pagination from '../components/Pagination/Pagination';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Preloader from '../components/PizzaBlock/Skeleton';
 import Sort, { listSort } from '../components/Sort';
-import { setFilters } from '../redux/filter/filterSlice';
-import { selectPizzas } from '../redux/pizzas/pizzasSelectors';
-import { FC } from 'react';
-// import {v1} from 'uuid';
-// import uuid from 'react-uuid';
 import {
     selectCategoryId, selectCurrentPage,
     selectOrderType, selectSearchValue,
     selectSortType
 } from '../redux/filter/filterSelectors';
-import { useAppDispatch } from '../redux/store';
+import { setFilters } from '../redux/filter/filterSlice';
 import { SetFilterArg } from '../redux/filter/filterTypes';
 import { fetchPizzas } from '../redux/pizzas/asyncActions';
+import { selectPizzas } from '../redux/pizzas/pizzasSelectors';
+import { useAppDispatch } from '../redux/store';
 
 const Home: FC = () => {
     const dispatch = useAppDispatch();
@@ -34,6 +31,13 @@ const Home: FC = () => {
     const { items, status } = useSelector(selectPizzas);
 
     const navigate = useNavigate();
+
+    const pizzasList =
+        status === 'loading'
+            ? [...new Array(4)].map((_, index) => <Preloader key={index} />)
+            : items.map((pizzasItem) => {
+                return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
+            })
 
     const getPizzas = async () => {
         try {
@@ -106,19 +110,13 @@ const Home: FC = () => {
                     {!!items.length && <h2 className="content__title">Все пиццы:</h2>}
                     {!items.length && status === 'success' && <h2 className="content__title">Ничего нет :(</h2>}
                     <div className="content__items">
-                        {
-                            status === 'loading'
-                                ? [...new Array(4)].map((_, index) => <Preloader key={index} />)
-                                : items.map((pizzasItem) => {
-                                    return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
-                                })
-                        }
+                        {pizzasList}
                     </div>
                 </>
             }
             {((items.length === 4) || (!!items.length && currentPage > 1)) &&
                 <Pagination currentPage={currentPage} arrayLength={items.length} />
-            }   
+            }
         </ div>
     )
 }
