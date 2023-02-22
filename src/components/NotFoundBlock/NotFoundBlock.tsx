@@ -8,7 +8,7 @@ const NotFoundBlock:FC = () => {
                 <br />
                 Not Found
             </h1>
-            <p className={style.description}>Unfortunately, this page is not available in our online store.</p>
+            <p className={style.description}>К сожалению, эта страница недоступна в нашем интернет-магазине.</p>
         </div>
     )
 }
