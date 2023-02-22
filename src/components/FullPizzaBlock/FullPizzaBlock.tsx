@@ -35,7 +35,7 @@ const FullPizzaBlock: FC = () => {
     return (
         <div className="container">
             <div className="pizza__wrapper">
-            <img className="pizza__wrapper--img" src={pizza.imageUrl} />
+            <img className="pizza__wrapper--img" src={pizza.imageUrl} alt="Pizza" />
             <h2 className="pizza__wrapper--title">{pizza.title},</h2>
             <h4 className="pizza__wrapper--price">{pizza.price} ₽</h4>
             <p className="pizza__wrapper--description">
