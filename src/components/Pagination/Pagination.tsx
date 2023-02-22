@@ -6,7 +6,8 @@ import { setCurrentPage } from '../../redux/filter/filterSlice';
 import styles from './Pagination.module.scss'
 
 type PaginationPropsType = {
-    currentPage: number
+    currentPage: number,
+    arrayLength: number
 }
 
 const Pagination: FC<PaginationPropsType> = ({ currentPage }) => {

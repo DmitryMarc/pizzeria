@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-import { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { setOrderType, setSortType } from "../redux/filter/filterSlice";
 

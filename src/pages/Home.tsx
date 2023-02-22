@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
@@ -7,18 +7,16 @@ import Pagination from '../components/Pagination/Pagination';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Preloader from '../components/PizzaBlock/Skeleton';
 import Sort, { listSort } from '../components/Sort';
-import { setFilters } from '../redux/filter/filterSlice';
-import { selectPizzas } from '../redux/pizzas/pizzasSelectors';
-
-import { FC } from 'react';
 import {
     selectCategoryId, selectCurrentPage,
     selectOrderType, selectSearchValue,
     selectSortType
 } from '../redux/filter/filterSelectors';
-import { useAppDispatch } from '../redux/store';
+import { setFilters } from '../redux/filter/filterSlice';
 import { SetFilterArg } from '../redux/filter/filterTypes';
 import { fetchPizzas } from '../redux/pizzas/asyncActions';
+import { selectPizzas } from '../redux/pizzas/pizzasSelectors';
+import { useAppDispatch } from '../redux/store';
 
 const Home: FC = () => {
     const dispatch = useAppDispatch();
@@ -33,6 +31,13 @@ const Home: FC = () => {
     const { items, status } = useSelector(selectPizzas);
 
     const navigate = useNavigate();
+
+    const pizzasList =
+        status === 'loading'
+            ? [...new Array(4)].map((_, index) => <Preloader key={index} />)
+            : items.map((pizzasItem) => {
+                return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
+            })
 
     const getPizzas = async () => {
         try {
@@ -52,12 +57,12 @@ const Home: FC = () => {
     // При первом рендере проверяем URL-параметры и сохраняем их в redux
     useEffect(() => {
         if (window.location.search) {
-            const params = qs.parse(window.location.search.substring(1)) as SetFilterArg;
-            const sort = listSort.find(listItem => listItem.sortProperty === params.sort.sortProperty);
+            const params = qs.parse(window.location.search.substring(1));
+            const sort = listSort.find(listItem => listItem.sortProperty === params.sortProperty);
             dispatch(setFilters({
                 ...params,
                 sort: sort || listSort[0]
-            }));
+            } as SetFilterArg));
             isSearch.current = true;
         }
     }, [])
@@ -102,19 +107,16 @@ const Home: FC = () => {
                 </div>
                 :
                 <>
-                    <h2 className="content__title">Все пиццы:</h2>
+                    {!!items.length && <h2 className="content__title">Все пиццы:</h2>}
+                    {!items.length && status === 'success' && <h2 className="content__title">Ничего нет :(</h2>}
                     <div className="content__items">
-                        {
-                            status === 'loading'
-                                ? [...new Array(6)].map((_, index) => <Preloader key={index} />)
-                                : items.map((pizzasItem) => {
-                                    return <PizzaBlock key={pizzasItem.id} {...pizzasItem} />
-                                })
-                        }
+                        {pizzasList}
                     </div>
                 </>
             }
-            <Pagination currentPage={currentPage} />
+            {((items.length === 4) || (!!items.length && currentPage > 1)) &&
+                <Pagination currentPage={currentPage} arrayLength={items.length} />
+            }
         </ div>
     )
 }
