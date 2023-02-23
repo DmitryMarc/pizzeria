@@ -29,7 +29,7 @@ const CartItem: FC<CartItemPropsType> = React.memo(
         }
 
         const onClickRemove = () => {
-            if (window.confirm('Are you sure you want to remove?')) {
+            if (window.confirm('Вы уверены, что хотите удалить?')) {
                 dispatch(removeItem(id));
             }
         }
